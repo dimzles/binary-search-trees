@@ -23,3 +23,20 @@ class Tree {
     return node;
   }
 }
+
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.rightNode !== null) {
+    prettyPrint(node.rightNode, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+  if (node.leftNode !== null) {
+    prettyPrint(node.leftNode, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
+
+const array = [1, 2, 3, 4, 5, 6, 7];
+const tree = new Tree(array);
+prettyPrint(tree.root);
