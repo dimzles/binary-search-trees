@@ -11,14 +11,15 @@ class Tree {
     this.root = this.buildTree(array);
   }
 
-  buildTree(array, start = 0, end = array.length - 1) {
-    if (start > end) return null;
+  buildTree(array) {
+    const sortedArray = [...new Set(array)].sort((a, b) => a - b);
+    const mid = Math.floor(sortedArray.length / 2);
+    const node = new Node(sortedArray[mid]);
 
-    const mid = parseInt((start + end) / 2);
-    const node = new Node(array[mid]);
+    if (sortedArray.length === 0) return null;
 
-    node.leftNode = this.buildTree(array, start, mid - 1);
-    node.rightNode = this.buildTree(array, mid + 1, end);
+    node.leftNode = this.buildTree(sortedArray.slice(0, mid));
+    node.rightNode = this.buildTree(sortedArray.slice(mid + 1));
 
     return node;
   }
@@ -37,6 +38,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const array = [1, 2, 3, 4, 5, 6, 7];
+const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 prettyPrint(tree.root);
