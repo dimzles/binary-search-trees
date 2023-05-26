@@ -36,6 +36,45 @@ class Tree {
 
     return node;
   }
+
+  findMinValue(node) {
+    let minVal = node.value;
+
+    while (node.leftNode !== null) {
+      minVal = node.leftNode.value;
+      node = node.leftNode;
+    }
+
+    return minVal;
+  }
+
+  #deleteNodeHelper(node) {
+    if (node.leftNode && node.rightNode) {
+      const nextSmallestNode = this.findMinValue(node.rightNode);
+
+      node.value = nextSmallestNode;
+      node.rightNode = this.delete(nextSmallestNode, node.rightNode);
+
+      return node;
+    } else {
+      const replacementNode = node.rightNode || node.leftNode;
+      node = null;
+      return replacementNode;
+    }
+  }
+
+  delete(value, node = this.root) {
+    if (node === null) return node;
+
+    if (node.value === value) {
+      node = this.#deleteNodeHelper(node);
+    } else if (node.value < value) {
+      node.rightNode = this.delete(value, node.rightNode);
+    } else {
+      node.leftNode = this.delete(value, node.leftNode);
+    }
+    return node;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -54,6 +93,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 tree.insert(4);
-prettyPrint(tree.root);
 tree.insert(2);
+prettyPrint(tree.root);
+tree.delete(2);
+tree.delete(8);
 prettyPrint(tree.root);
