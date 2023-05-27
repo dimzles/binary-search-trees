@@ -75,6 +75,16 @@ class Tree {
     }
     return node;
   }
+
+  find(value, node = this.root) {
+    if (!node) return null;
+    if (node.value !== value) {
+      return node.value < value
+        ? this.find(value, node.rightNode)
+        : this.find(value, node.leftNode);
+    }
+    return console.log(node);
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -98,3 +108,4 @@ prettyPrint(tree.root);
 tree.delete(2);
 tree.delete(8);
 prettyPrint(tree.root);
+tree.find(67);
