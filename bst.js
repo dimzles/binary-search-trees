@@ -128,6 +128,17 @@ class Tree {
     if (!callbackFn) return preOrderResults
   }
 
+  inOrder(callbackFn, node = this.root, results = []) {
+    if (!this.root) return []
+    if (node === null) return
+
+    this.inOrder(callbackFn, node.leftNode, results)
+    callbackFn ? callbackFn(node) : results.push(node.value)
+    this.inOrder(callbackFn, node.rightNode, results)
+    
+    if (results) return results
+  }
+
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -146,4 +157,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 prettyPrint(tree.root)
-console.log(tree.preOrder())
+console.log(tree.inOrder())
