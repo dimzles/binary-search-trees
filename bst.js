@@ -85,6 +85,30 @@ class Tree {
     }
     return console.log(node);
   }
+
+  // Level Order Traversal || Breadth First Traversal
+  // Uses a Queue (First In, First Out)
+  
+  levelOrder(callbackFn) {
+    if (!this.root) return [];
+
+    const queue = [this.root];
+    const finalResults = []
+
+    while (queue.length) {
+      let levelResults = []
+      for (let i = 0; i < queue.length; i++) {
+        const currentNode = queue.shift();
+        levelResults.push(currentNode.value)
+
+        if (currentNode.leftNode) queue.push(currentNode.leftNode)
+        if (currentNode.rightNode) queue.push(currentNode.rightNode)
+        if (callbackFn) callbackFn(currentNode)
+      }
+      finalResults.push(...levelResults)
+    }
+    if (!callbackFn) return finalResults
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -102,10 +126,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
-tree.insert(4);
-tree.insert(2);
-prettyPrint(tree.root);
-tree.delete(2);
-tree.delete(8);
-prettyPrint(tree.root);
-tree.find(67);
+console.log(tree.levelOrder())
