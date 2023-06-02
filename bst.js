@@ -88,7 +88,7 @@ class Tree {
 
   // Level Order Traversal || Breadth First Traversal
   // Uses a Queue (First In, First Out)
-  
+
   levelOrder(callbackFn) {
     if (!this.root) return [];
 
@@ -109,6 +109,25 @@ class Tree {
     }
     if (!callbackFn) return finalResults
   }
+
+  preOrder(callbackFn) {
+    if (!this.root) return []
+
+    const stack = [this.root]
+    const preOrderResults = []
+    
+    while (stack.length) {
+      const currentNode = stack.pop()
+
+      if (currentNode.rightNode) stack.push(currentNode.rightNode)
+      if (currentNode.leftNode) stack.push(currentNode.leftNode)
+      if (callbackFn) callbackFn(currentNode)
+
+      preOrderResults.push(currentNode.value)
+    }
+    if (!callbackFn) return preOrderResults
+  }
+
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -126,4 +145,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
-console.log(tree.levelOrder())
+prettyPrint(tree.root)
+console.log(tree.preOrder())
