@@ -110,6 +110,7 @@ class Tree {
     if (!callbackFn) return finalResults
   }
 
+  //Ordered as: root, left subtree, right subtree. Uses a stack
   preOrder(callbackFn) {
     if (!this.root) return []
 
@@ -128,6 +129,7 @@ class Tree {
     if (!callbackFn) return preOrderResults
   }
 
+  //Ordered as: left subtree, root, right subtree. Uses iteration
   inOrder(callbackFn, node = this.root, results = []) {
     if (!this.root) return []
     if (node === null) return
@@ -139,6 +141,7 @@ class Tree {
     if (results) return results
   }
 
+  //Ordered as: left subtree, right subtree, root. Uses a stack
   postOrder(callbackFn, node = this.root, results = []) {
     if (!this.root) return [];
     if (node === null) return;
@@ -148,6 +151,16 @@ class Tree {
     callbackFn ? callbackFn(node) : results.push(node.value)
 
     if (results.length > 0) return results
+  }
+
+  //Height is defined as the number of edges in longest path from a given node to a leaf node
+  height(node = this.root) {
+    if (node === null) return 0
+
+    const leftTreeHeight = this.height(node.leftNode)
+    const rightTreeHeight = this.height(node.rightNode)
+
+    return Math.max(leftTreeHeight, rightTreeHeight) + 1;
   }
 
 }
@@ -168,4 +181,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 prettyPrint(tree.root)
-console.log(tree.postOrder())
+console.log(tree.height())
