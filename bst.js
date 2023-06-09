@@ -163,6 +163,18 @@ class Tree {
     return Math.max(leftTreeHeight, rightTreeHeight) + 1;
   }
 
+  //Depth is defined as the number of edges in path from a given node to the tree’s root node
+  depth(nodeValue, node = this.root, depthCount = 0) {
+    if (node === null) return;
+    if (node.value === nodeValue) return depthCount;
+
+    if (node.value < nodeValue) {
+      return this.depth(nodeValue, node.rightNode, depthCount + 1)
+    } else {
+      return this.depth(nodeValue, node.leftNode, depthCount + 1)
+    }
+  }
+
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -181,4 +193,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 prettyPrint(tree.root)
-console.log(tree.height())
+console.log(tree.depth(23))
