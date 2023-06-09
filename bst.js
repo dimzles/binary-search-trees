@@ -205,13 +205,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = new Tree(array);
-tree.insert(22)
-tree.insert(21)
-tree.insert(20)
-prettyPrint(tree.root)
-console.log(tree.isBalanced())
-tree.rebalance()
-prettyPrint(tree.root)
-console.log(tree.isBalanced())
+export { Tree, prettyPrint }
